@@ -439,7 +439,7 @@ def setup_progressbar(progressbar, preview, id_part, textinfo=None):
     check_progress = gr.Button('Check progress', elem_id=f"{id_part}_check_progress", visible=False)
     check_progress.click(
         fn=lambda: check_progress_call(id_part),
-        show_progress=False,
+        show_progress=True,
         inputs=[],
         outputs=[progressbar, preview, preview, textinfo],
     )
@@ -447,7 +447,7 @@ def setup_progressbar(progressbar, preview, id_part, textinfo=None):
     check_progress_initial = gr.Button('Check progress (first)', elem_id=f"{id_part}_check_progress_initial", visible=False)
     check_progress_initial.click(
         fn=lambda: check_progress_call_initial(id_part),
-        show_progress=False,
+        show_progress=True,
         inputs=[],
         outputs=[progressbar, preview, preview, textinfo],
     )
@@ -695,7 +695,8 @@ def create_ui():
                     generation_info,
                     html_info
                 ],
-                show_progress=False,
+                show_progress=True,
+                queue=True
             )
 
             txt2img_prompt.submit(**txt2img_args)
@@ -928,7 +929,8 @@ def create_ui():
                     generation_info,
                     html_info
                 ],
-                show_progress=False,
+                show_progress=True,
+                queue=True
             )
 
             img2img_prompt.submit(**img2img_args)
@@ -1578,8 +1580,8 @@ def create_ui():
         with open(os.path.join(script_path, "user.css"), "r", encoding="utf8") as file:
             css += file.read() + "\n"
 
-    if not cmd_opts.no_progressbar_hiding:
-        css += css_hide_progressbar
+    #if not cmd_opts.no_progressbar_hiding:
+    #    css += css_hide_progressbar
 
     interfaces += script_callbacks.ui_tabs_callback()
     interfaces += [(settings_interface, "Settings", "settings")]
