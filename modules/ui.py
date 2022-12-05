@@ -1645,6 +1645,7 @@ def create_ui():
                 fn=lambda value, k=k: run_settings_single(value, key=k),
                 inputs=[component],
                 outputs=[component, text_settings],
+                queue=False
             )
 
         component_keys = [k for k in opts.data_labels.keys() if k in component_dict]
