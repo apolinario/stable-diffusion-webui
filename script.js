@@ -1,10 +1,5 @@
-function gradioApp() {
-    if (!!document.getElementsByTagName('gradio-app')[0].shadowRoot) {
-        return document.getElementsByTagName('gradio-app')[0].shadowRoot;
-    }
-    else {
-        return document
-    }
+function gradioApp(){
+    return document.getElementsByTagName('gradio-app')[0].shadowRoot;
 }
 
 function get_uiCurrentTab() {
@@ -19,14 +14,14 @@ uiUpdateCallbacks = []
 uiTabChangeCallbacks = []
 let uiCurrentTab = null
 
-function onUiUpdate(callback) {
+function onUiUpdate(callback){
     uiUpdateCallbacks.push(callback)
 }
-function onUiTabChange(callback) {
+function onUiTabChange(callback){
     uiTabChangeCallbacks.push(callback)
 }
 
-function runCallback(x, m) {
+function runCallback(x, m){
     try {
         x(m)
     } catch (e) {
@@ -34,30 +29,30 @@ function runCallback(x, m) {
     }
 }
 function executeCallbacks(queue, m) {
-    queue.forEach(function (x) { runCallback(x, m) })
+    queue.forEach(function(x){runCallback(x, m)})
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    var mutationObserver = new MutationObserver(function (m) {
+document.addEventListener("DOMContentLoaded", function() {
+    var mutationObserver = new MutationObserver(function(m){
         executeCallbacks(uiUpdateCallbacks, m);
         const newTab = get_uiCurrentTab();
-        if (newTab && (newTab !== uiCurrentTab)) {
+        if ( newTab && ( newTab !== uiCurrentTab ) ) {
             uiCurrentTab = newTab;
             executeCallbacks(uiTabChangeCallbacks);
         }
     });
-    mutationObserver.observe(gradioApp(), { childList: true, subtree: true })
+    mutationObserver.observe( gradioApp(), { childList:true, subtree:true })
 });
 
 /**
  * Add a ctrl+enter as a shortcut to start a generation
  */
-document.addEventListener('keydown', function (e) {
+ document.addEventListener('keydown', function(e) {
     var handled = false;
     if (e.key !== undefined) {
-        if ((e.key == "Enter" && (e.metaKey || e.ctrlKey || e.altKey))) handled = true;
+        if((e.key == "Enter" && (e.metaKey || e.ctrlKey || e.altKey))) handled = true;
     } else if (e.keyCode !== undefined) {
-        if ((e.keyCode == 13 && (e.metaKey || e.ctrlKey || e.altKey))) handled = true;
+        if((e.keyCode == 13 && (e.metaKey || e.ctrlKey || e.altKey))) handled = true;
     }
     if (handled) {
         button = get_uiCurrentTabContent().querySelector('button[id$=_generate]');
@@ -73,14 +68,14 @@ document.addEventListener('keydown', function (e) {
  */
 function uiElementIsVisible(el) {
     let isVisible = !el.closest('.\\!hidden');
-    if (!isVisible) {
+    if ( ! isVisible ) {
         return false;
     }
 
-    while (isVisible = el.closest('.tabitem')?.style.display !== 'none') {
-        if (!isVisible) {
+    while( isVisible = el.closest('.tabitem')?.style.display !== 'none' ) {
+        if ( ! isVisible ) {
             return false;
-        } else if (el.parentElement) {
+        } else if ( el.parentElement ) {
             el = el.parentElement
         } else {
             break;
